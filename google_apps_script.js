@@ -31,38 +31,15 @@ function doPost(e) {
 function doGet(e) {
   var action = e.parameter.action;
   if (action === 'get_menu') {
-    return ContentService.createTextOutput(JSON.stringify(getMenu()))
+    var response = ContentService.createTextOutput(JSON.stringify(getMenu()))
       .setMimeType(ContentService.MimeType.JSON);
+    response.withHeaders({"Access-Control-Allow-Origin": "*"});
+    return response;
   }
-
-  // Handle order placement from GET request
-  var tableNumber = e.parameter.table_number;
-  var cart = JSON.parse(e.parameter.cart);
-  
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Orders");
-  if (!sheet) {
-    sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet("Orders");
-    sheet.appendRow(["OrderID", "TableNumber", "TotalPrice", "Timestamp", "Status", "Items"]);
-  }
-
-  var totalPrice = 0;
-  var items = [];
-
-  for (var i = 0; i < cart.length; i++) {
-    totalPrice += cart[i].price * cart[i].quantity;
-    items.push(cart[i].name + " x " + cart[i].quantity);
-  }
-
-  var timestamp = new Date();
-  var orderId = "ORD-" + timestamp.getTime();
-  var status = "Pending";
-
-  sheet.appendRow([orderId, tableNumber, totalPrice, timestamp, status, items.join(", ")]);
-
-  return ContentService.createTextOutput(JSON.stringify({
-    'success': true,
-    'order_id': orderId
-  })).setMimeType(ContentService.MimeType.JSON);
+  var errorResponse = ContentService.createTextOutput(JSON.stringify({'error': 'Invalid action'}))
+    .setMimeType(ContentService.MimeType.JSON);
+  errorResponse.withHeaders({"Access-Control-Allow-Origin": "*"});
+  return errorResponse;
 }
 
 function getMenu() {

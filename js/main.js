@@ -228,11 +228,9 @@ async function placeOrder() {
     }
 
     try {
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzzkNamPklAfFIZAzFGw2FAReSwWsJ5Mhg8lq7LPgChNNcUOOrPBsAQbL3avNpJNiyx/exec';
-        const queryParams = `?table_number=${encodeURIComponent(tableNumber)}&cart=${encodeURIComponent(JSON.stringify(cart))}`;
-        const response = await fetch(scriptURL + queryParams, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+        const response = await fetch('https://script.google.com/macros/s/AKfycbzzkNamPklAfFIZAzFGw2FAReSwWsJ5Mhg8lq7LPgChNNcUOOrPBsAQbL3avNpJNiyx/exec', {
+            method: 'POST',
+            body: JSON.stringify({ table_number: tableNumber, cart: cart })
         });
 
         if (!response.ok) {
