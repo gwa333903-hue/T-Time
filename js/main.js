@@ -232,7 +232,7 @@ async function placeOrder() {
         formData.append('table_number', tableNumber);
         formData.append('cart', JSON.stringify(cart));
 
-        const response = await fetch('https://script.google.com/macros/s/AKfycbzzkNamPklAfFIZAzFGw2FAReSwWsJ5Mhg8lq7LPgChNNcUOOrPBsAQbL3avNpJNiyx/exec', {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbzwiIJfaARaQ9pRxSXihjvOiBGREXTdBn0q5x8TPF6TJfvm1h8Ug_cTdVRYU5eVWdkvjw/exec', {
             method: 'POST',
             body: formData
         });
