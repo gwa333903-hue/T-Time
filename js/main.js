@@ -228,9 +228,13 @@ async function placeOrder() {
     }
 
     try {
+        const formData = new FormData();
+        formData.append('table_number', tableNumber);
+        formData.append('cart', JSON.stringify(cart));
+
         const response = await fetch('https://script.google.com/macros/s/AKfycbzzkNamPklAfFIZAzFGw2FAReSwWsJ5Mhg8lq7LPgChNNcUOOrPBsAQbL3avNpJNiyx/exec', {
             method: 'POST',
-            body: JSON.stringify({ table_number: tableNumber, cart: cart })
+            body: formData
         });
 
         if (!response.ok) {

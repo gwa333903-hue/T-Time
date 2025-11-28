@@ -14,9 +14,8 @@ function doPost(e) {
       sheet.appendRow(["OrderID", "TableNumber", "TotalPrice", "Timestamp", "Status", "Items"]);
     }
 
-    var data = JSON.parse(e.postData.contents);
-    var tableNumber = data.table_number;
-    var cart = data.cart;
+    var tableNumber = e.parameter.table_number;
+    var cart = JSON.parse(e.parameter.cart);
     var totalPrice = 0;
     var items = [];
 
