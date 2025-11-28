@@ -228,10 +228,11 @@ async function placeOrder() {
     }
 
     try {
-        const response = await fetch('/api/order', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ table_number: tableNumber, cart: cart })
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzzkNamPklAfFIZAzFGw2FAReSwWsJ5Mhg8lq7LPgChNNcUOOrPBsAQbL3avNpJNiyx/exec';
+        const queryParams = `?table_number=${encodeURIComponent(tableNumber)}&cart=${encodeURIComponent(JSON.stringify(cart))}`;
+        const response = await fetch(scriptURL + queryParams, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
         });
 
         if (!response.ok) {
