@@ -1,33 +1,53 @@
+// This function is required to handle CORS preflight requests from the browser.
+function doOptions(e) {
+  return ContentService.createTextOutput()
+    .setHeader("Access-Control-Allow-Origin", "*")
+    .setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+    .setHeader("Access-Control-Allow-Headers", "Content-Type");
+}
+
 function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Orders");
-  if (!sheet) {
-    sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet("Orders");
-    sheet.appendRow(["OrderID", "TableNumber", "TotalPrice", "Timestamp", "Status", "Items"]);
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Orders");
+    if (!sheet) {
+      sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet("Orders");
+      sheet.appendRow(["OrderID", "TableNumber", "TotalPrice", "Timestamp", "Status", "Items"]);
+    }
+
+    var data = JSON.parse(e.postData.contents);
+    var tableNumber = data.table_number;
+    var cart = data.cart;
+    var totalPrice = 0;
+    var items = [];
+
+    for (var i = 0; i < cart.length; i++) {
+      totalPrice += cart[i].price * cart[i].quantity;
+      items.push(cart[i].name + " x " + cart[i].quantity);
+    }
+
+    var timestamp = new Date();
+    var orderId = "ORD-" + timestamp.getTime();
+    var status = "Pending";
+
+    sheet.appendRow([orderId, tableNumber, totalPrice, timestamp, status, items.join(", ")]);
+
+    var response = ContentService.createTextOutput(JSON.stringify({
+      'success': true,
+      'order_id': orderId
+    })).setMimeType(ContentService.MimeType.JSON);
+    
+    response.setHeader("Access-Control-Allow-Origin", "*");
+    return response;
+
+  } catch (err) {
+    var errorResponse = ContentService.createTextOutput(JSON.stringify({
+      'success': false,
+      'message': err.message
+    })).setMimeType(ContentService.MimeType.JSON);
+    
+    errorResponse.setHeader("Access-Control-Allow-Origin", "*");
+    return errorResponse;
   }
-
-  var data = JSON.parse(e.postData.contents);
-  var tableNumber = data.table_number;
-  var cart = data.cart;
-  var totalPrice = 0;
-  var items = [];
-
-  for (var i = 0; i < cart.length; i++) {
-    totalPrice += cart[i].price * cart[i].quantity;
-    items.push(cart[i].name + " x " + cart[i].quantity);
-  }
-
-  var timestamp = new Date();
-  var orderId = "ORD-" + timestamp.getTime();
-  var status = "Pending";
-
-  sheet.appendRow([orderId, tableNumber, totalPrice, timestamp, status, items.join(", ")]);
-
-  var response = ContentService.createTextOutput(JSON.stringify({
-    'success': true,
-    'order_id': orderId
-  })).setMimeType(ContentService.MimeType.JSON);
-  response.setHeader("Access-Control-Allow-Origin", "*");
-  return response;
 }
 
 function doGet(e) {
@@ -35,12 +55,12 @@ function doGet(e) {
   if (action === 'get_menu') {
     var response = ContentService.createTextOutput(JSON.stringify(getMenu()))
       .setMimeType(ContentService.MimeType.JSON);
-    response.withHeaders({"Access-Control-Allow-Origin": "*"});
+    response.setHeader("Access-Control-Allow-Origin", "*");
     return response;
   }
   var errorResponse = ContentService.createTextOutput(JSON.stringify({'error': 'Invalid action'}))
     .setMimeType(ContentService.MimeType.JSON);
-  errorResponse.withHeaders({"Access-Control-Allow-Origin": "*"});
+  errorResponse.setHeader("Access-Control-Allow-Origin", "*");
   return errorResponse;
 }
 
