@@ -22,10 +22,12 @@ function doPost(e) {
 
   sheet.appendRow([orderId, tableNumber, totalPrice, timestamp, status, items.join(", ")]);
 
-  return ContentService.createTextOutput(JSON.stringify({
+  var response = ContentService.createTextOutput(JSON.stringify({
     'success': true,
     'order_id': orderId
   })).setMimeType(ContentService.MimeType.JSON);
+  response.setHeader("Access-Control-Allow-Origin", "*");
+  return response;
 }
 
 function doGet(e) {
