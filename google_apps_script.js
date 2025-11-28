@@ -35,7 +35,6 @@ function doPost(e) {
       'order_id': orderId
     })).setMimeType(ContentService.MimeType.JSON);
     
-    response.setHeader("Access-Control-Allow-Origin", "*");
     return response;
 
   } catch (err) {
@@ -44,7 +43,6 @@ function doPost(e) {
       'message': err.message
     })).setMimeType(ContentService.MimeType.JSON);
     
-    errorResponse.setHeader("Access-Control-Allow-Origin", "*");
     return errorResponse;
   }
 }
