@@ -75,7 +75,9 @@ function fetchMenu() {
             { "id": 3, "name": "Green tea", "price": "20.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" },
             { "id": 4, "name": "Milk tea (Small)", "price": "20.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" },
             { "id": 5, "name": "Milk tea (Large)", "price": "30.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" },
-            { "id": 6, "name": "Special Tea", "price": "40.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" },
+            { "id": 6, "name": "Special Tea", "price": "40.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" }
+        ],
+        "Coffee": [
             { "id": 7, "name": "Coffee (Small)", "price": "20.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Coffee" },
             { "id": 8, "name": "Coffee (Large)", "price": "30.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Coffee" },
             { "id": 9, "name": "Special Coffee", "price": "40.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Coffee" },
