@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <form id="staff-login-form" action="/staff-login" method="post">
+        <form id="staff-login-form">
             <h2>Staff Login</h2>
             <div class="form-group">
                 <label for="username">Username</label>
@@ -21,5 +21,12 @@
             <button type="submit">Login</button>
         </form>
     </div>
+
+    <script>
+        document.getElementById('staff-login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+            window.location.href = 'order_control.html'; // Redirect to the order control page
+        });
+    </script>
 </body>
 </html>
