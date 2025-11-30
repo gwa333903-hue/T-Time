@@ -70,48 +70,50 @@ function doPost(e) {
 
 function doGet(e) {
   var action = e.parameter.action;
+  var response; // Define response variable at the top of the function scope
 
   try {
     if (action === 'get_menu') {
-      var response = ContentService.createTextOutput(JSON.stringify(getMenu()))
+      response = ContentService.createTextOutput(JSON.stringify(getMenu()))
         .setMimeType(ContentService.MimeType.JSON);
-      response.setHeader("Access-Control-Allow-Origin", "*");
-      return response;
-
+      
     } else if (action === 'get_orders') {
       var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Orders");
-      var data = sheet.getDataRange().getValues();
       var orders = [];
-      
-      // Start from 1 to skip header row
-      for (var i = 1; i < data.length; i++) {
-        var status = data[i][4]; // Column E for Status
-        if (status === 'Pending') {
-            var itemsStr = data[i][5]; // Column F for Items
-            var itemsArr = itemsStr.split(', ').map(function(item) {
-                var parts = item.split(' x ');
-                return { name: parts[0], quantity: parts[1] };
-            });
 
-            orders.push({
-                id: data[i][0], // OrderID
-                table_number: data[i][1], // TableNumber
-                total_price: data[i][2], // TotalPrice
-                order_time: data[i][3], // Timestamp
-                items: itemsArr
-            });
+      // If the sheet exists, read data from it. Otherwise, return the empty array.
+      if (sheet) {
+        var data = sheet.getDataRange().getValues();
+        // Start from 1 to skip header row
+        for (var i = 1; i < data.length; i++) {
+          var status = data[i][4]; // Column E for Status
+          if (status === 'Pending') {
+              var itemsStr = data[i][5]; // Column F for Items
+              var itemsArr = itemsStr.split(', ').map(function(item) {
+                  var parts = item.split(' x ');
+                  return { name: parts[0], quantity: parts[1] || 1 }; // Default quantity to 1 if missing
+              });
+
+              orders.push({
+                  id: data[i][0], // OrderID
+                  table_number: data[i][1], // TableNumber
+                  total_price: data[i][2], // TotalPrice
+                  order_time: data[i][3], // Timestamp
+                  items: itemsArr
+              });
+          }
         }
       }
-      var response = ContentService.createTextOutput(JSON.stringify(orders))
+      response = ContentService.createTextOutput(JSON.stringify(orders))
         .setMimeType(ContentService.MimeType.JSON);
-      response.setHeader("Access-Control-Allow-Origin", "*");
-      return response;
+
+    } else {
+      response = ContentService.createTextOutput(JSON.stringify({'error': 'Invalid action'}))
+        .setMimeType(ContentService.MimeType.JSON);
     }
     
-    var errorResponse = ContentService.createTextOutput(JSON.stringify({'error': 'Invalid action'}))
-      .setMimeType(ContentService.MimeType.JSON);
-    errorResponse.setHeader("Access-Control-Allow-Origin", "*");
-    return errorResponse;
+    response.setHeader("Access-Control-Allow-Origin", "*");
+    return response;
 
   } catch (err) {
     var errorResponse = ContentService.createTextOutput(JSON.stringify({
