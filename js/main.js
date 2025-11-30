@@ -277,9 +277,5 @@ function seedDatabase() {
         batch.set(categoryRef, { items: menuCategories[category] });
     }
 
-    batch.commit().then(() => {
-        console.log("Database seeded successfully!");
-    }).catch((error) => {
-        console.error("Error seeding database: ", error);
-    });
+    return batch.commit();
 }

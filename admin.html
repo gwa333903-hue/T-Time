@@ -27,14 +27,16 @@
             const statusElement = document.getElementById('seed-status');
             statusElement.textContent = 'Seeding database...';
             
-            // The seedDatabase function is in js/main.js
-            seedDatabase();
-
-            // This is a simple confirmation. For a real app, you'd want to
-            // use the promise returned by batch.commit() to confirm success.
-            setTimeout(() => {
-                statusElement.textContent = 'Database seeding initiated. Check your Firebase console to confirm.';
-            }, 2000);
+            seedDatabase()
+                .then(() => {
+                    statusElement.textContent = 'Database seeded successfully! You can now visit the menu page.';
+                    statusElement.style.color = 'green';
+                })
+                .catch((error) => {
+                    statusElement.textContent = 'Error seeding database: ' + error.message;
+                    statusElement.style.color = 'red';
+                    console.error(error);
+                });
         });
     </script>
 </body>
