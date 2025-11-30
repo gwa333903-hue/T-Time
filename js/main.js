@@ -4,12 +4,16 @@ const db = firebase.firestore();
 // Function to seed the database with initial menu items
 async function seedDatabase() {
     const menuCollection = db.collection('menu');
-    
-    // Check if the menu collection is empty before seeding
-    const snapshot = await menuCollection.limit(1).get();
+
+    console.log('Clearing existing documents from menu collection...');
+    const snapshot = await menuCollection.get();
     if (!snapshot.empty) {
-        console.log('Database already has menu items. Skipping seeding.');
-        return; // Stop if data already exists
+        const batch = db.batch();
+        snapshot.docs.forEach(doc => {
+            batch.delete(doc.ref);
+        });
+        await batch.commit();
+        console.log('Menu collection cleared.');
     }
 
     console.log('Seeding database with initial menu items...');
