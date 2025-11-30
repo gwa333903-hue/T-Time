@@ -38,5 +38,43 @@
         </div>
     </footer>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <!-- Your Firebase configuration -->
+    <script src="js/firebase-config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const db = firebase.firestore();
+            const orderIdElement = document.getElementById('order-id');
+            const orderStatusElement = document.getElementById('order-status');
+            const orderMoreButton = document.getElementById('order-more');
+
+            // Fetch the most recent order to display its status
+            // In a real app, you would likely pass an order ID in the URL
+            db.collection('orders').orderBy('timestamp', 'desc').limit(1).get()
+                .then(querySnapshot => {
+                    if (querySnapshot.empty) {
+                        orderStatusElement.textContent = 'No orders found.';
+                        return;
+                    }
+                    querySnapshot.forEach(doc => {
+                        const order = doc.data();
+                        orderIdElement.textContent = doc.id;
+                        orderStatusElement.textContent = order.status;
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching order status: ", error);
+                    orderStatusElement.textContent = 'Could not retrieve order status.';
+                });
+
+            // Redirect to menu page to order more
+            orderMoreButton.addEventListener('click', () => {
+                window.location.href = 'menu.html';
+            });
+        });
+    </script>
 </body>
 </html>
