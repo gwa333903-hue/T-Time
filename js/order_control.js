@@ -4,13 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function attachCompleteOrderListener(btn) {
         btn.addEventListener('click', () => {
             const orderId = btn.dataset.orderId;
-            const formData = new FormData();
-            formData.append('action', 'complete_order');
-            formData.append('order_id', orderId);
-
-            fetch('https://script.google.com/macros/s/AKfycbzwiIJfaARaQ9pRxSXihjvOiBGREXTdBn0q5x8TPF6TJfvm1h8Ug_cTdVRYU5eVWdkvjw/exec', {
-                method: 'POST',
-                body: formData
+            fetch(`/api/orders/complete/${orderId}`, {
+                method: 'POST'
             })
             .then(response => response.json())
             .then(data => {
@@ -90,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     async function fetchOrders() {
         try {
-            const response = await fetch('https://script.google.com/macros/s/AKfycbzwiIJfaARaQ9pRxSXihjvOiBGREXTdBn0q5x8TPF6TJfvm1h8Ug_cTdVRYU5eVWdkvjw/exec?action=get_orders');
+            const response = await fetch('/api/orders');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
