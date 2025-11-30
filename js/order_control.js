@@ -8,10 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append('action', 'complete_order');
             formData.append('order_id', orderId);
 
-            fetch('/api/orders/complete', {
+            fetch('https://script.google.com/macros/s/AKfycbzwiIJfaARaQ9pRxSXihjvOiBGREXTdBn0q5x8TPF6TJfvm1h8Ug_cTdVRYU5eVWdkvjw/exec', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ order_id: orderId })
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
@@ -91,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     async function fetchOrders() {
         try {
-            const response = await fetch('/api/orders');
+            const response = await fetch('https://script.google.com/macros/s/AKfycbzwiIJfaARaQ9pRxSXihjvOiBGREXTdBn0q5x8TPF6TJfvm1h8Ug_cTdVRYU5eVWdkvjw/exec?action=get_orders');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

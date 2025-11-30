@@ -8,57 +8,119 @@ function doOptions(e) {
 
 function doPost(e) {
   try {
+    var action = e.parameter.action;
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Orders");
+    
     if (!sheet) {
       sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet("Orders");
       sheet.appendRow(["OrderID", "TableNumber", "TotalPrice", "Timestamp", "Status", "Items"]);
     }
 
-    var tableNumber = e.parameter.table_number;
-    var cart = JSON.parse(e.parameter.cart);
-    var totalPrice = 0;
-    var items = [];
+    if (action === 'complete_order') {
+      var orderId = e.parameter.order_id;
+      var data = sheet.getDataRange().getValues();
+      var responseMessage = { 'success': false, 'message': 'Order not found' };
 
-    for (var i = 0; i < cart.length; i++) {
-      totalPrice += cart[i].price * cart[i].quantity;
-      items.push(cart[i].name + " x " + cart[i].quantity);
+      for (var i = 1; i < data.length; i++) {
+        if (data[i][0] == orderId) {
+          sheet.getRange(i + 1, 5).setValue("Completed"); // Column E for Status
+          responseMessage = { 'success': true };
+          break;
+        }
+      }
+      var response = ContentService.createTextOutput(JSON.stringify(responseMessage))
+        .setMimeType(ContentService.MimeType.JSON);
+      response.setHeader("Access-Control-Allow-Origin", "*");
+      return response;
+
+    } else { // Default action is to place an order
+      var tableNumber = e.parameter.table_number;
+      var cart = JSON.parse(e.parameter.cart);
+      var totalPrice = 0;
+      var items = [];
+
+      for (var i = 0; i < cart.length; i++) {
+        totalPrice += cart[i].price * cart[i].quantity;
+        items.push(cart[i].name + " x " + cart[i].quantity);
+      }
+
+      var timestamp = new Date();
+      var orderId = "ORD-" + timestamp.getTime();
+      var status = "Pending";
+
+      sheet.appendRow([orderId, tableNumber, totalPrice, timestamp, status, items.join(", ")]);
+
+      var response = ContentService.createTextOutput(JSON.stringify({
+        'success': true,
+        'order_id': orderId
+      })).setMimeType(ContentService.MimeType.JSON);
+      response.setHeader("Access-Control-Allow-Origin", "*");
+      return response;
     }
-
-    var timestamp = new Date();
-    var orderId = "ORD-" + timestamp.getTime();
-    var status = "Pending";
-
-    sheet.appendRow([orderId, tableNumber, totalPrice, timestamp, status, items.join(", ")]);
-
-    var response = ContentService.createTextOutput(JSON.stringify({
-      'success': true,
-      'order_id': orderId
-    })).setMimeType(ContentService.MimeType.JSON);
-    
-    return response;
 
   } catch (err) {
     var errorResponse = ContentService.createTextOutput(JSON.stringify({
       'success': false,
       'message': err.message
     })).setMimeType(ContentService.MimeType.JSON);
-    
+    errorResponse.setHeader("Access-Control-Allow-Origin", "*");
     return errorResponse;
   }
 }
 
 function doGet(e) {
   var action = e.parameter.action;
-  if (action === 'get_menu') {
-    var response = ContentService.createTextOutput(JSON.stringify(getMenu()))
+
+  try {
+    if (action === 'get_menu') {
+      var response = ContentService.createTextOutput(JSON.stringify(getMenu()))
+        .setMimeType(ContentService.MimeType.JSON);
+      response.setHeader("Access-Control-Allow-Origin", "*");
+      return response;
+
+    } else if (action === 'get_orders') {
+      var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Orders");
+      var data = sheet.getDataRange().getValues();
+      var orders = [];
+      
+      // Start from 1 to skip header row
+      for (var i = 1; i < data.length; i++) {
+        var status = data[i][4]; // Column E for Status
+        if (status === 'Pending') {
+            var itemsStr = data[i][5]; // Column F for Items
+            var itemsArr = itemsStr.split(', ').map(function(item) {
+                var parts = item.split(' x ');
+                return { name: parts[0], quantity: parts[1] };
+            });
+
+            orders.push({
+                id: data[i][0], // OrderID
+                table_number: data[i][1], // TableNumber
+                total_price: data[i][2], // TotalPrice
+                order_time: data[i][3], // Timestamp
+                items: itemsArr
+            });
+        }
+      }
+      var response = ContentService.createTextOutput(JSON.stringify(orders))
+        .setMimeType(ContentService.MimeType.JSON);
+      response.setHeader("Access-Control-Allow-Origin", "*");
+      return response;
+    }
+    
+    var errorResponse = ContentService.createTextOutput(JSON.stringify({'error': 'Invalid action'}))
       .setMimeType(ContentService.MimeType.JSON);
-    response.setHeader("Access-Control-Allow-Origin", "*");
-    return response;
+    errorResponse.setHeader("Access-Control-Allow-Origin", "*");
+    return errorResponse;
+
+  } catch (err) {
+    var errorResponse = ContentService.createTextOutput(JSON.stringify({
+      'success': false,
+      'message': err.message
+    })).setMimeType(ContentService.MimeType.JSON);
+    errorResponse.setHeader("Access-Control-Allow-Origin", "*");
+    return errorResponse;
   }
-  var errorResponse = ContentService.createTextOutput(JSON.stringify({'error': 'Invalid action'}))
-    .setMimeType(ContentService.MimeType.JSON);
-  errorResponse.setHeader("Access-Control-Allow-Origin", "*");
-  return errorResponse;
 }
 
 function getMenu() {
