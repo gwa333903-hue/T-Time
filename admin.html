@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - T-Time Café</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Panel</h2>
+        <p>Use this page to manage your application's data.</p>
+        <button id="seed-database" class="btn">Seed Menu Data</button>
+        <p id="seed-status"></p>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <!-- Your Firebase configuration and admin script -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/main.js"></script> <!-- Contains the seedDatabase function -->
+
+    <script>
+        document.getElementById('seed-database').addEventListener('click', () => {
+            const statusElement = document.getElementById('seed-status');
+            statusElement.textContent = 'Seeding database...';
+            
+            // The seedDatabase function is in js/main.js
+            seedDatabase();
+
+            // This is a simple confirmation. For a real app, you'd want to
+            // use the promise returned by batch.commit() to confirm success.
+            setTimeout(() => {
+                statusElement.textContent = 'Database seeding initiated. Check your Firebase console to confirm.';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
