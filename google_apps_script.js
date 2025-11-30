@@ -61,8 +61,7 @@ function doPost(e) {
     })).setMimeType(ContentService.MimeType.JSON);
   }
   
-  response.setHeader("Access-Control-Allow-Origin", "*");
-  return response;
+  return response.setHeader("Access-Control-Allow-Origin", "*");
 }
 
 function doGet(e) {
@@ -111,8 +110,7 @@ function doGet(e) {
     })).setMimeType(ContentService.MimeType.JSON);
   }
   
-  response.setHeader("Access-Control-Allow-Origin", "*");
-  return response;
+  return response.setHeader("Access-Control-Allow-Origin", "*");
 }
 
 function getMenu() {
