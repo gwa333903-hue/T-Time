@@ -67,97 +67,49 @@ function populateTableNumbers() {
     }
 }
 
-function fetchMenu() {
-    const menuCategories = {
-        "Tea": [
-            { "id": 1, "name": "Lal chai", "price": "10.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" },
-            { "id": 2, "name": "Lebu cahi", "price": "10.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" },
-            { "id": 3, "name": "Green tea", "price": "20.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" },
-            { "id": 4, "name": "Milk tea (Small)", "price": "20.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" },
-            { "id": 5, "name": "Milk tea (Large)", "price": "30.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" },
-            { "id": 6, "name": "Special Tea", "price": "40.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" }
-        ],
-        "Coffee": [
-            { "id": 7, "name": "Coffee (Small)", "price": "20.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Coffee" },
-            { "id": 8, "name": "Coffee (Large)", "price": "30.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Coffee" },
-            { "id": 9, "name": "Special Coffee", "price": "40.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Coffee" },
-            { "id": 10, "name": "Black Coffee", "price": "20.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Coffee" }
-        ],
-        "Snacks": [
-            { "id": 11, "name": "Chicken Pakora", "price": "50.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Snacks" },
-            { "id": 12, "name": "Chicken Lollipop", "price": "50.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Snacks" },
-            { "id": 13, "name": "Chicken Cutlet", "price": "35.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Snacks" },
-            { "id": 14, "name": "Chicken Sate", "price": "50.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Snacks" },
-            { "id": 15, "name": "Panir Tikka", "price": "60.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Snacks" },
-            { "id": 16, "name": "Lachha Porota", "price": "15.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Snacks" },
-            { "id": 17, "name": "Chicken Fry", "price": "140.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Snacks" }
-        ],
-        "Momo": [
-            { "id": 18, "name": "Steam Momo", "price": "50.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Momo" },
-            { "id": 19, "name": "Fry Momo", "price": "60.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Momo" },
-            { "id": 20, "name": "Pan Fry Momo", "price": "90.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Momo" },
-            { "id": 21, "name": "Chili Momo", "price": "110.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Momo" },
-            { "id": 22, "name": "Cheese Momo", "price": "99.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Momo" }
-        ],
-        "Chowmein": [
-            { "id": 23, "name": "Egg Chowmein (Full)", "price": "70.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" },
-            { "id": 24, "name": "Egg Chowmein (Half)", "price": "40.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" },
-            { "id": 25, "name": "Chicken Chowmein (Full)", "price": "100.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" },
-            { "id": 26, "name": "Chicken Chowmein (Half)", "price": "50.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" },
-            { "id": 27, "name": "Paneer Chowmein (Full)", "price": "100.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" },
-            { "id": 28, "name": "Paneer Chowmein (Half)", "price": "50.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" },
-            { "id": 29, "name": "Veg Chowmein", "price": "40.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" },
-            { "id": 30, "name": "Supie Nuduls", "price": "80.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" }
-        ],
-        "Rolls": [
-            { "id": 31, "name": "Egg Laccha Roll", "price": "40.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Rolls" },
-            { "id": 32, "name": "Egg Chicken Laccha Roll", "price": "80.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Rolls" },
-            { "id": 33, "name": "Paneer Laccha Roll", "price": "90.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Rolls" }
-        ],
-        "Pizza": [
-            { "id": 34, "name": "Chicken Pizza (Large)", "price": "150.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Pizza" },
-            { "id": 35, "name": "Chicken Pizza (Small)", "price": "100.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Pizza" },
-            { "id": 36, "name": "Paneer Pizza (Large)", "price": "170.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Pizza" },
-            { "id": 37, "name": "Paneer Pizza (Small)", "price": "120.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Pizza" },
-            { "id": 38, "name": "Veg Pizza (Large)", "price": "120.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Pizza" },
-            { "id": 39, "name": "Veg Pizza (Small)", "price": "80.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Pizza" }
-        ],
-        "Burger": [
-            { "id": 40, "name": "Chicken Burger", "price": "60.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Burger" }
-        ]
-    };
-
+async function fetchMenu() {
     const menuContainer = document.getElementById('menu-items');
-    menuContainer.innerHTML = ''; // Clear existing items
+    menuContainer.innerHTML = '<h2>Loading menu...</h2>';
 
-    for (const category in menuCategories) {
-        const categorySection = document.createElement('div');
-        categorySection.className = 'menu-category';
-        categorySection.innerHTML = `<h2>${category}</h2>`;
+    try {
+        const categoriesSnapshot = await db.collection('menu').get();
+        menuContainer.innerHTML = ''; // Clear loading message
 
-        const menuGrid = document.createElement('div');
-        menuGrid.className = 'menu-grid';
+        categoriesSnapshot.forEach(categoryDoc => {
+            const category = categoryDoc.data();
+            const categorySection = document.createElement('div');
+            categorySection.className = 'menu-category';
+            categorySection.innerHTML = `<h2>${categoryDoc.id}</h2>`;
 
-        menuCategories[category].forEach(item => {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'menu-item';
-            itemDiv.innerHTML = `
-                <img src="${item.image_url}" alt="${item.name}" referrerpolicy="no-referrer">
-                <h3>${item.name}</h3>
-                <p>₹${parseFloat(item.price).toFixed(2)}</p>
-                <button class="btn add-to-cart" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}">Add to Cart</button>
-            `;
-            menuGrid.appendChild(itemDiv);
+            const menuGrid = document.createElement('div');
+            menuGrid.className = 'menu-grid';
+
+            category.items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'menu-item';
+                itemDiv.innerHTML = `
+                    <img src="${item.image_url}" alt="${item.name}" referrerpolicy="no-referrer">
+                    <h3>${item.name}</h3>
+                    <p>₹${parseFloat(item.price).toFixed(2)}</p>
+                    <button class="btn add-to-cart" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}">Add to Cart</button>
+                `;
+                menuGrid.appendChild(itemDiv);
+            });
+
+            categorySection.appendChild(menuGrid);
+            menuContainer.appendChild(categorySection);
         });
 
-        categorySection.appendChild(menuGrid);
-        menuContainer.appendChild(categorySection);
-    }
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', addToCart);
+        });
 
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', addToCart);
-    });
+    } catch (error) {
+        console.error("Error fetching menu:", error);
+        menuContainer.innerHTML = '<h2>Error loading menu. Please try again later.</h2>';
+    }
 }
+
 
 let cart = [];
 
@@ -227,30 +179,21 @@ async function placeOrder() {
         return;
     }
 
+    const order = {
+        table_number: tableNumber,
+        items: cart,
+        total_price: cart.reduce((total, item) => total + item.price * item.quantity, 0),
+        order_time: firebase.firestore.FieldValue.serverTimestamp(),
+        status: 'pending'
+    };
+
     try {
-        const formData = new FormData();
-        formData.append('table_number', tableNumber);
-        formData.append('cart', JSON.stringify(cart));
-
-        const response = await fetch('https://script.google.com/macros/s/AKfycbzwiIJfaARaQ9pRxSXihjvOiBGREXTdBn0q5x8TPF6TJfvm1h8Ug_cTdVRYU5eVWdkvjw/exec', {
-            method: 'POST',
-            body: formData
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        if (result.success) {
-            localStorage.setItem('orderId', result.order_id);
-            localStorage.setItem('orderStatus', 'Pending');
-            window.location.href = 'tracking.html';
-        } else {
-            alert('There was an error placing your order: ' + result.message);
-        }
+        const docRef = await db.collection('orders').add(order);
+        localStorage.setItem('orderId', docRef.id);
+        localStorage.setItem('orderStatus', 'Pending');
+        window.location.href = 'tracking.html';
     } catch (error) {
-        console.error("Could not place order:", error);
+        console.error("Error placing order:", error);
         alert('There was a network error placing your order. Please try again.');
     }
 }
@@ -263,4 +206,80 @@ function displayOrderStatus() {
         document.getElementById('order-id').textContent = orderId;
         document.getElementById('order-status').textContent = orderStatus;
     }
+}
+
+// Function to seed the database with menu items.
+// Call this function once from the browser console to populate the menu.
+function seedDatabase() {
+    const menuCategories = {
+        "Tea": [
+            { "id": 1, "name": "Lal chai", "price": "10.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" },
+            { "id": 2, "name": "Lebu cahi", "price": "10.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" },
+            { "id": 3, "name": "Green tea", "price": "20.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" },
+            { "id": 4, "name": "Milk tea (Small)", "price": "20.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" },
+            { "id": 5, "name": "Milk tea (Large)", "price": "30.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" },
+            { "id": 6, "name": "Special Tea", "price": "40.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Tea" }
+        ],
+        "Coffee": [
+            { "id": 7, "name": "Coffee (Small)", "price": "20.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Coffee" },
+            { "id": 8, "name": "Coffee (Large)", "price": "30.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Coffee" },
+            { "id": 9, "name": "Special Coffee", "price": "40.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Coffee" },
+            { "id": 10, "name": "Black Coffee", "price": "20.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Coffee" }
+        ],
+        "Snacks": [
+            { "id": 11, "name": "Chicken Pakora", "price": "50.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Snacks" },
+            { "id": 12, "name": "Chicken Lollipop", "price": "50.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Snacks" },
+            { "id": 13, "name": "Chicken Cutlet", "price": "35.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Snacks" },
+            { "id": 14, "name": "Chicken Sate", "price": "50.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Snacks" },
+            { "id": 15, "name": "Panir Tikka", "price": "60.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Snacks" },
+            { "id": 16, "name": "Lachha Porota", "price": "15.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Snacks" },
+            { "id": 17, "name": "Chicken Fry", "price": "140.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Snacks" }
+        ],
+        "Momo": [
+            { "id": 18, "name": "Steam Momo", "price": "50.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Momo" },
+            { "id": 19, "name": "Fry Momo", "price": "60.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Momo" },
+            { "id": 20, "name": "Pan Fry Momo", "price": "90.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Momo" },
+            { "id": 21, "name": "Chili Momo", "price": "110.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Momo" },
+            { "id": 22, "name": "Cheese Momo", "price": "99.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Momo" }
+        ],
+        "Chowmein": [
+            { "id": 23, "name": "Egg Chowmein (Full)", "price": "70.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" },
+            { "id": 24, "name": "Egg Chowmein (Half)", "price": "40.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" },
+            { "id": 25, "name": "Chicken Chowmein (Full)", "price": "100.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" },
+            { "id": 26, "name": "Chicken Chowmein (Half)", "price": "50.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" },
+            { "id": 27, "name": "Paneer Chowmein (Full)", "price": "100.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" },
+            { "id": 28, "name": "Paneer Chowmein (Half)", "price": "50.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" },
+            { "id": 29, "name": "Veg Chowmein", "price": "40.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" },
+            { "id": 30, "name": "Supie Nuduls", "price": "80.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Chowmein" }
+        ],
+        "Rolls": [
+            { "id": 31, "name": "Egg Laccha Roll", "price": "40.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Rolls" },
+            { "id": 32, "name": "Egg Chicken Laccha Roll", "price": "80.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Rolls" },
+            { "id": 33, "name": "Paneer Laccha Roll", "price": "90.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Rolls" }
+        ],
+        "Pizza": [
+            { "id": 34, "name": "Chicken Pizza (Large)", "price": "150.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Pizza" },
+            { "id": 35, "name": "Chicken Pizza (Small)", "price": "100.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Pizza" },
+            { "id": 36, "name": "Paneer Pizza (Large)", "price": "170.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Pizza" },
+            { "id": 37, "name": "Paneer Pizza (Small)", "price": "120.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Pizza" },
+            { "id": 38, "name": "Veg Pizza (Large)", "price": "120.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Pizza" },
+            { "id": 39, "name": "Veg Pizza (Small)", "price": "80.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Pizza" }
+        ],
+        "Burger": [
+            { "id": 40, "name": "Chicken Burger", "price": "60.00", "image_url": "https://placehold.co/150x150/d2b48c/5a463a?text=Burger" }
+        ]
+    };
+
+    const batch = db.batch();
+
+    for (const category in menuCategories) {
+        const categoryRef = db.collection('menu').doc(category);
+        batch.set(categoryRef, { items: menuCategories[category] });
+    }
+
+    batch.commit().then(() => {
+        console.log("Database seeded successfully!");
+    }).catch((error) => {
+        console.error("Error seeding database: ", error);
+    });
 }
