@@ -2,27 +2,36 @@
 header("Content-Type: application/json");
 include 'db_connect.php';
 
-$action = isset($_GET['action']) ? $_GET['action'] : '';
+$request_uri = $_SERVER['REQUEST_URI'];
+$method = $_SERVER['REQUEST_METHOD'];
 
-switch ($action) {
-    case 'get_menu':
-        getMenu($conn);
-        break;
-    case 'place_order':
-        placeOrder($conn);
-        break;
-    case 'get_orders':
-        getOrders($conn);
-        break;
-    case 'update_status':
-        updateStatus($conn);
-        break;
-    case 'login':
-        staffLogin($conn);
-        break;
-    default:
-        echo json_encode(['error' => 'Invalid action']);
+// Simple router
+if ($method === 'GET' && $request_uri === '/api/orders') {
+    getOrders($conn);
+} elseif ($method === 'POST' && preg_match('/\/api\/orders\/complete\/(\d+)/', $request_uri, $matches)) {
+    $orderId = $matches[1];
+    completeOrder($conn, $orderId);
+} else {
+    // Fallback for other actions if they are still needed elsewhere
+    $action = isset($_GET['action']) ? $_GET['action'] : '';
+    switch ($action) {
+        case 'get_menu':
+            getMenu($conn);
+            break;
+        case 'place_order':
+            placeOrder($conn);
+            break;
+        case 'update_status':
+            updateStatus($conn);
+            break;
+        case 'login':
+            staffLogin($conn);
+            break;
+        default:
+            echo json_encode(['error' => 'Invalid API endpoint or action']);
+    }
 }
+
 
 function getMenu($conn) {
     $result = $conn->query("SELECT * FROM menu_items ORDER BY category, name");
@@ -75,6 +84,17 @@ function getOrders($conn) {
 
     echo json_encode($orders);
 }
+
+function completeOrder($conn, $orderId) {
+    $stmt = $conn->prepare("UPDATE orders SET status = 'completed' WHERE id = ?");
+    $stmt->bind_param("i", $orderId);
+    if ($stmt->execute()) {
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to complete order.']);
+    }
+}
+
 
 function updateStatus($conn) {
     $data = json_decode(file_get_contents('php://input'), true);

@@ -4,10 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function attachCompleteOrderListener(btn) {
         btn.addEventListener('click', () => {
             const orderId = btn.dataset.orderId;
-            fetch(`/api/orders/complete`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ order_id: orderId })
+            fetch(`/api/orders/complete/${orderId}`, {
+                method: 'POST'
             })
             .then(response => response.json())
             .then(data => {
