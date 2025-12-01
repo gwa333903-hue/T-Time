@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         orderDiv.className = 'order';
         orderDiv.dataset.orderId = order.id;
 
-        const orderTime = order.order_time.toDate().toLocaleString('en-IN', {
+        const orderTime = order.timestamp.toDate().toLocaleString('en-IN', {
             timeZone: 'Asia/Kolkata',
             hour12: true,
             hour: 'numeric',
@@ -28,12 +28,17 @@ document.addEventListener('DOMContentLoaded', () => {
             second: 'numeric'
         });
 
+        const itemCounts = order.items.reduce((acc, item) => {
+            acc[item.name] = (acc[item.name] || 0) + 1;
+            return acc;
+        }, {});
+
         orderDiv.innerHTML = `
-            <h3>Table: ${order.table_number}</h3>
-            <p>Total Price: ${order.total_price}</p>
+            <h3>Table: ${order.tableNumber}</h3>
+            <p>Total Price: ${order.total.toFixed(2)}</p>
             <p><small>Order Time: ${orderTime}</small></p>
             <ul>
-                ${order.items.map(item => `<li>${item.name} x ${item.quantity}</li>`).join('')}
+                ${Object.entries(itemCounts).map(([name, quantity]) => `<li>${name} x ${quantity}</li>`).join('')}
             </ul>
             <button class="complete-order-btn" data-order-id="${order.id}">Order Complete</button>
         `;
@@ -43,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     db.collection('orders')
-        .where('status', '==', 'pending')
+        .where('status', '==', 'Pending')
         .onSnapshot(snapshot => {
             ordersContainer.innerHTML = '';
             if (snapshot.empty) {
