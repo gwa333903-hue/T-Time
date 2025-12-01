@@ -11,21 +11,46 @@
         <form id="staff-login-form">
             <h2>Staff Login</h2>
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
             </div>
             <button type="submit">Login</button>
+            <p id="error-message" style="color: red;"></p>
         </form>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <!-- Your Firebase configuration -->
+    <script src="js/firebase-config.js"></script>
+
     <script>
-        document.getElementById('staff-login-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting
-            window.location.href = 'order_control.html'; // Redirect to the order control page
+        document.addEventListener('DOMContentLoaded', () => {
+            const auth = firebase.auth();
+            const loginForm = document.getElementById('staff-login-form');
+            const errorMessage = document.getElementById('error-message');
+
+            loginForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const email = loginForm.email.value;
+                const password = loginForm.password.value;
+
+                auth.signInWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        // Signed in 
+                        window.location.href = 'order_control.html';
+                    })
+                    .catch((error) => {
+                        errorMessage.textContent = error.message;
+                    });
+            });
         });
     </script>
 </body>
