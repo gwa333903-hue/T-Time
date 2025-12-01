@@ -7,30 +7,32 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Authentication Check -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="js/firebase-config.js"></script>
-    <script>
-        firebase.auth().onAuthStateChanged(user => {
-            if (!user) {
-                window.location.href = 'login.html';
-            }
-        });
-    </script>
-
     <div class="container">
         <h2>Order Control</h2>
         <div id="orders-container"></div>
         <a href="#" id="logout-link">Logout</a>
     </div>
-    <!-- Firebase SDK -->
+
+    <!-- Firebase SDK - Load in correct order -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-    <!-- Your Firebase configuration and main script -->
-    <script src="js/order_control.js"></script>
+    <!-- Your Firebase configuration -->
+    <script src="js/firebase-config.js"></script>
 
+    <!-- Page specific scripts -->
+    <script src="js/order_control.js"></script>
     <script>
+        // Authentication Check
+        firebase.auth().onAuthStateChanged(user => {
+            if (!user) {
+                // If no user, redirect to login
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Logout functionality
         document.getElementById('logout-link').addEventListener('click', (event) => {
             event.preventDefault();
             firebase.auth().signOut().then(() => {
