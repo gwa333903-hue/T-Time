@@ -162,13 +162,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
 
-            db.collection('orders').add(order).then(() => {
+            db.collection('orders').add(order).then((docRef) => {
+                // Save the order ID to session storage
+                sessionStorage.setItem('latestOrderId', docRef.id);
+                
                 alert('Order placed successfully!');
                 cart = [];
                 renderCart();
                 if (tableModal) {
                     tableModal.classList.add('hidden');
                 }
+                // Redirect to the tracking page
+                window.location.href = 'tracking.html';
             }).catch(error => {
                 console.error('Error placing order:', error);
                 alert('Could not place order. Please try again.');

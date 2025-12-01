@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Tracking - T-Time Café</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/main.js" defer></script>
 </head>
 <body>
     <header>
@@ -38,34 +37,42 @@
         </div>
     </footer>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase SDK - Load in correct order -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <!-- Your Firebase configuration -->
     <script src="js/firebase-config.js"></script>
+
+    <!-- Page specific script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const db = firebase.firestore();
             const orderIdElement = document.getElementById('order-id');
             const orderStatusElement = document.getElementById('order-status');
             const orderMoreButton = document.getElementById('order-more');
 
-            // Fetch the most recent order to display its status
-            // In a real app, you would likely pass an order ID in the URL
-            db.collection('orders').orderBy('timestamp', 'desc').limit(1).get()
-                .then(querySnapshot => {
-                    if (querySnapshot.empty) {
-                        orderStatusElement.textContent = 'No orders found.';
-                        return;
-                    }
-                    querySnapshot.forEach(doc => {
+            // Retrieve the order ID from session storage
+            const orderId = sessionStorage.getItem('latestOrderId');
+
+            if (!orderId) {
+                orderStatusElement.textContent = 'No active order found.';
+                orderIdElement.textContent = 'N/A';
+                return;
+            }
+
+            // Display the order ID
+            orderIdElement.textContent = orderId;
+
+            // Listen for real-time updates to the order's status
+            db.collection('orders').doc(orderId)
+                .onSnapshot(doc => {
+                    if (doc.exists) {
                         const order = doc.data();
-                        orderIdElement.textContent = doc.id;
                         orderStatusElement.textContent = order.status;
-                    });
-                })
-                .catch(error => {
+                    } else {
+                        orderStatusElement.textContent = 'Order not found.';
+                    }
+                }, error => {
                     console.error("Error fetching order status: ", error);
                     orderStatusElement.textContent = 'Could not retrieve order status.';
                 });
